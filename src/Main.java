@@ -4,7 +4,6 @@ public class Main {
 
     public static int bossHealth = 700;
     public static int bossDamage = 50;
-    public static int bonusFromMedic = 2;
     public static String bossDefence = "";
     public static int[] heroesHealth = {260, 250, 240, 300};
     public static int[] heroesDamage = {20, 25, 15, 0};
@@ -26,20 +25,18 @@ public class Main {
 
     public static void changeBossDefence() {
         Random r = new Random();
-        int randomIndex = r.nextInt(heroesAttackType.length - 1); // 0,1,2
+        int randomIndex = r.nextInt(heroesAttackType.length); // 0,1,2
         bossDefence = heroesAttackType[randomIndex];
         System.out.println("Boss choose " + bossDefence);
     }
 
     public static void round() {
         changeBossDefence();
-        medicSelection();
         heroesHit();
         if (bossHealth > 0) {
             bossHits();
         }
         printStatistics();
-
     }
 
     public static void heroesHit() {
@@ -66,21 +63,11 @@ public class Main {
         }
     }
 
-    public static void medicSelection() {
-        for (int i = 0; i < heroesAttackType.length; i++) {
-            Random randomBonus = new Random();
-            int bonus = randomBonus.nextInt(heroesHealth.length - 1);
-            if (heroesHealth[i] < 100) {
-                heroesHealth[i] = heroesHealth[i] + bonusFromMedic;
-            }
-        }
-    }
-
     public static void bossHits() {
         Random r = new Random();
         int chance = r.nextInt(3); // 0, 1, 2
         double coeff = Math.random(); // какое-то число от 0 до 1 (0.378)
-        if (chance == 0) {
+        if(chance == 0) {
             System.out.println("Boss became kind " + (int) (bossDamage * coeff));
         }
         for (int i = 0; i < heroesHealth.length; i++) {
@@ -119,7 +106,7 @@ public class Main {
         }
         boolean allHeroesDead = true;
         for (int i = 0; i < heroesHealth.length; i++) {
-            if (heroesHealth[i] > 0) {
+            if(heroesHealth[i] > 0){
                 allHeroesDead = false;
                 break;
             }
@@ -127,17 +114,6 @@ public class Main {
         return allHeroesDead;
     }
 }
-
-
-/*
-ДЗ на сообразительность:
-● Добавить n-го игрока, Golem, который имеет увеличенную жизнь но слабый удар. Может принимать на себя 1/5 часть урона исходящего от босса по другим игрокам.
-● Добавить n-го игрока, Lucky, имеет шанс уклонения от ударов босса.
-● Добавить n-го игрока, Berserk, блокирует часть удара босса по себе и прибавляет
-заблокированный урон к своему урону и возвращает его боссу
-● Добавить n-го игрока, Thor, удар по боссу имеет шанс оглушить босса на 1 раунд,
-вследствие чего босс пропускает 1 раунд и не наносит урон героям.
- */
 /*
 ДЗ на сообразительность:
 ● Добавить n-го игрока, Golem, который имеет увеличенную жизнь но слабый удар. Может принимать на себя 1/5 часть урона исходящего от босса по другим игрокам.
